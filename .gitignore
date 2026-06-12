@@ -1,0 +1,53 @@
+# ==========================================
+# X-Sys.dev Standard .gitignore
+# ==========================================
+
+# 1. Python Specific
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 2. Virtual Environments (Crucial to ignore)
+venv/
+env/
+ENV/
+.env
+.venv
+
+# 3. C/C++ Compiled Binaries (If you add C++ later)
+*.o
+*.out
+*.exe
+*.dll
+*.class
+
+# 4. Security & Secrets (NEVER COMMIT THESE)
+*.pem
+*.key
+*.cert
+*.crt
+secrets.json
+config.json
+credentials.yml
+
+# 5. OS & IDE Specific
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
