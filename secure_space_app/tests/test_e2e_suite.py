@@ -109,7 +109,8 @@ class TestSecureSpaceE2E(unittest.TestCase):
         resp = alice.register()
         self.assertIn("status", resp)
         self.assertIn("user_id", resp)
-        self.assertEqual(len(resp), 2)
+        self.assertIn("token", resp)
+        self.assertEqual(len(resp), 3)
 
     def test_user_directory_contains_all(self):
         alice = ClientSim("alice", self.backend_url)
