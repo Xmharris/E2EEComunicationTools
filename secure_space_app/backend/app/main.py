@@ -1,5 +1,6 @@
 import uuid
 import re
+import hashlib
 import os
 import sqlite3
 from typing import List, Dict, Optional
@@ -90,9 +91,11 @@ def get_current_user(
     if not current_token:
         raise HTTPException(status_code=401, detail="Unauthorized: Missing token")
         
+    hashed_token = hashlib.sha256(current_token.encode('utf-8')).hexdigest()
+        
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT user_id FROM users WHERE token = ?", (current_token,))
+    cursor.execute("SELECT user_id FROM users WHERE token = ?", (hashed_token,))
     row = cursor.fetchone()
     conn.close()
     
@@ -135,7 +138,7 @@ class MessageSendRequest(BaseModel):
 @app.post("/api/reset")
 def reset_backend(request: Request):
     client_host = request.client.host if request.client else None
-    if client_host not in ("127.0.0.1", "::1", "localhost"):
+    if client_host not in ("127.0.0.1", "::1", "localhost", "testclient", "testserver"):
         raise HTTPException(status_code=403, detail="Reset only allowed in local test environment")
         
     conn = get_db()
@@ -194,9 +197,10 @@ def register_user(request: UserRegisterRequest):
         
     # Generate secure token
     token = str(uuid.uuid4())
+    hashed_token = hashlib.sha256(token.encode('utf-8')).hexdigest()
         
     # Insert user
-    cursor.execute("INSERT INTO users (user_id, public_key, token) VALUES (?, ?, ?)", (username, request.public_key, token))
+    cursor.execute("INSERT INTO users (user_id, public_key, token) VALUES (?, ?, ?)", (username, request.public_key, hashed_token))
     conn.commit()
     conn.close()
     return {"status": "registered", "user_id": username, "token": token}
