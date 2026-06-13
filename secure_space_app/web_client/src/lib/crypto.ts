@@ -65,6 +65,31 @@ export async function generateKeyPair(): Promise<{ privateKey: CryptoKey, public
   return { privateKey: keyPair.privateKey, publicKeyPem };
 }
 
+export async function exportPrivateKey(key: CryptoKey): Promise<string> {
+  const pkcs8 = await window.crypto.subtle.exportKey('pkcs8', key);
+  const base64 = arrayBufferToBase64(pkcs8);
+  const pem = base64.match(/.{1,64}/g)?.join('\n') || '';
+  return `-----BEGIN PRIVATE KEY-----\n${pem}\n-----END PRIVATE KEY-----\n`;
+}
+
+export async function importPrivateKey(pem: string): Promise<CryptoKey> {
+  const base64 = pem
+    .replace(/-----BEGIN PRIVATE KEY-----/g, '')
+    .replace(/-----END PRIVATE KEY-----/g, '')
+    .replace(/\s+/g, '');
+  const pkcs8 = base64ToArrayBuffer(base64);
+  return await window.crypto.subtle.importKey(
+    'pkcs8',
+    pkcs8,
+    {
+      name: 'ECDH',
+      namedCurve: 'P-256'
+    },
+    true,
+    ['deriveKey', 'deriveBits']
+  );
+}
+
 export async function importPeerPublicKey(pem: string): Promise<CryptoKey> {
   const spki = pemToSpki(pem);
   return await window.crypto.subtle.importKey(

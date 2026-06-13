@@ -55,6 +55,18 @@ export class ApiClient {
     return data;
   }
 
+  async loginChallenge(userId: string): Promise<{ ephemeral_public_key: string, encrypted_token: string }> {
+    const res = await fetch('/api/users/login/challenge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId }),
+    });
+    if (!res.ok) {
+      throw new Error(`API Error: ${res.status} ${await res.text()}`);
+    }
+    return res.json();
+  }
+
   async getUsers(): Promise<{user_id: string, public_key: string}[]> {
     return this.fetch('/users');
   }

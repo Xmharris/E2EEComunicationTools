@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Container, Typography, Box, TextField, Button, Paper, 
-  List, ListItem, ListItemText, Divider, CssBaseline, ThemeProvider, createTheme,
-  AppBar, Toolbar, IconButton
+  List, ListItem, ListItemButton, ListItemText, Divider, CssBaseline, ThemeProvider, createTheme,
+  AppBar, Toolbar, Tabs, Tab
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import { api } from './lib/api';
-import { generateKeyPair, deriveSharedKey, encryptAESGCM, decryptAESGCM } from './lib/crypto';
+import { generateKeyPair, deriveSharedKey, encryptAESGCM, decryptAESGCM, exportPrivateKey, importPrivateKey } from './lib/crypto';
 
 const darkTheme = createTheme({
   palette: {
@@ -26,18 +26,76 @@ export default function App() {
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [inputText, setInputText] = useState('');
+  const [tabIndex, setTabIndex] = useState(0);
+  const [importKeyFile, setImportKeyFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    const session = localStorage.getItem('groundedmind_session');
+    if (session) {
+      try {
+        const { userId, token, privateKeyPem, publicKeyPem } = JSON.parse(session);
+        api.setToken(token);
+        api.setUserId(userId);
+        setUserId(userId);
+        importPrivateKey(privateKeyPem).then(privKey => {
+          setKeys({ privateKey: privKey, publicKeyPem });
+          setIsRegistered(true);
+          fetchUsers();
+        });
+      } catch (e) {
+        console.error("Failed to restore session", e);
+      }
+    }
+  }, []);
 
   const handleRegister = async () => {
     if (!userId) return;
     try {
       const newKeys = await generateKeyPair();
+      const data = await api.register(userId, newKeys.publicKeyPem);
+      const privateKeyPem = await exportPrivateKey(newKeys.privateKey);
+      
+      localStorage.setItem('groundedmind_session', JSON.stringify({
+        userId,
+        token: data.token,
+        privateKeyPem,
+        publicKeyPem: newKeys.publicKeyPem
+      }));
+
       setKeys(newKeys);
-      await api.register(userId, newKeys.publicKeyPem);
       setIsRegistered(true);
       fetchUsers();
     } catch (e) {
       console.error(e);
-      alert('Registration failed');
+      alert('Registration failed: Username may already exist');
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!userId || !importKeyFile) return;
+    try {
+      const pemText = await importKeyFile.text();
+      const privateKey = await importPrivateKey(pemText);
+      const challengeData = await api.loginChallenge(userId);
+      const sharedKey = await deriveSharedKey(privateKey, challengeData.ephemeral_public_key);
+      const tokenStr = await decryptAESGCM(sharedKey, challengeData.encrypted_token);
+      
+      api.setToken(tokenStr);
+      api.setUserId(userId);
+      
+      localStorage.setItem('groundedmind_session', JSON.stringify({
+        userId,
+        token: tokenStr,
+        privateKeyPem: pemText,
+        publicKeyPem: ""
+      }));
+
+      setKeys({ privateKey, publicKeyPem: "" });
+      setIsRegistered(true);
+      fetchUsers();
+    } catch (e) {
+      console.error(e);
+      alert('Login failed: Invalid key or user');
     }
   };
 
@@ -53,16 +111,11 @@ export default function App() {
   const fetchMessages = async () => {
     if (!selectedUser || !keys) return;
     try {
-      const msgs = await api.getMessages(); // Get all messages
-      // Filter for DM with selectedUser
-      const chatMsgs = msgs.filter((m: any) => 
-        (m.sender_id === userId && m.recipient_id === selectedUser.user_id) ||
-        (m.sender_id === selectedUser.user_id && m.recipient_id === userId)
-      );
-
+      const msgs = await api.getMessages(selectedUser.user_id);
+      
       const sharedKey = await deriveSharedKey(keys.privateKey, selectedUser.public_key);
       
-      const decryptedMsgs = await Promise.all(chatMsgs.map(async (m: any) => {
+      const decryptedMsgs = await Promise.all(msgs.map(async (m: any) => {
         try {
           const dec = await decryptAESGCM(sharedKey, m.encrypted_payload);
           return { ...m, plaintext: new TextDecoder().decode(dec) };
@@ -103,17 +156,74 @@ export default function App() {
     return (
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <Container maxWidth="xs" sx={{ mt: 10 }}>
-          <Paper elevation={6} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 3 }}>
-            <LockIcon color="primary" sx={{ fontSize: 60, mb: 2 }} />
-            <Typography variant="h4" gutterBottom fontWeight="bold">GroundedMind</Typography>
-            <Typography variant="body2" color="textSecondary" sx={{ mb: 3 }}>End-to-End Encrypted Space</Typography>
-            <TextField fullWidth label="Choose Username" variant="outlined" margin="normal" value={userId} onChange={e => setUserId(e.target.value)} />
-            <Button fullWidth variant="contained" size="large" sx={{ mt: 2, borderRadius: 2 }} onClick={handleRegister}>
-              Generate Keys & Enter
-            </Button>
+        <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>
+          <Paper elevation={3} sx={{ p: 4, width: '100%', maxWidth: 400 }}>
+            <Tabs value={tabIndex} onChange={(e, val) => setTabIndex(val)} variant="fullWidth" sx={{ mb: 3 }}>
+              <Tab label="Create Identity" />
+              <Tab label="Import Identity" />
+            </Tabs>
+
+            <Typography variant="h4" gutterBottom align="center" color="primary" sx={{ fontWeight: 'bold' }}>
+              GroundedMind
+            </Typography>
+            <TextField 
+              fullWidth 
+              label="Username" 
+              variant="outlined" 
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              sx={{ mb: 3 }}
+            />
+
+            {tabIndex === 0 && (
+              <Button 
+                fullWidth 
+                variant="contained" 
+                size="large"
+                onClick={handleRegister}
+              >
+                Generate Keys & Enter
+              </Button>
+            )}
+
+            {tabIndex === 1 && (
+              <>
+                <Button
+                  variant="outlined"
+                  component="label"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                >
+                  Upload Private Key (.pem)
+                  <input
+                    type="file"
+                    hidden
+                    accept=".pem"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files.length > 0) {
+                        setImportKeyFile(e.target.files[0]);
+                      }
+                    }}
+                  />
+                </Button>
+                {importKeyFile && (
+                  <Typography variant="caption" display="block" sx={{ mb: 2, textAlign: 'center' }}>
+                    Selected: {importKeyFile.name}
+                  </Typography>
+                )}
+                <Button 
+                  fullWidth 
+                  variant="contained" 
+                  size="large"
+                  onClick={handleLogin}
+                  disabled={!importKeyFile}
+                >
+                  Log In
+                </Button>
+              </>
+            )}
           </Paper>
-        </Container>
+        </Box>
       </ThemeProvider>
     );
   }
@@ -128,6 +238,25 @@ export default function App() {
             <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
               GroundedMind - {userId}
             </Typography>
+            <Button color="inherit" onClick={async () => {
+              if (!keys) return;
+              const pem = await exportPrivateKey(keys.privateKey);
+              const blob = new Blob([pem], { type: 'text/plain' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `groundedmind_${userId}_private_key.pem`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }}>
+              Export Key
+            </Button>
+            <Button color="inherit" onClick={() => {
+              localStorage.removeItem('groundedmind_session');
+              window.location.reload();
+            }}>
+              Log Out
+            </Button>
           </Toolbar>
         </AppBar>
         
@@ -135,14 +264,13 @@ export default function App() {
           <List>
             <ListItem><Typography variant="overline" sx={{ px: 2, color: 'primary.main' }}>Direct Messages</Typography></ListItem>
             {users.map((u) => (
-              <ListItem 
-                button 
+              <ListItemButton 
                 key={u.user_id} 
                 selected={selectedUser?.user_id === u.user_id}
                 onClick={() => setSelectedUser(u)}
               >
                 <ListItemText primary={u.user_id} />
-              </ListItem>
+              </ListItemButton>
             ))}
           </List>
         </Box>

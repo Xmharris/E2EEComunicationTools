@@ -6,7 +6,10 @@ import sqlite3
 from typing import List, Dict, Optional
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query, Response, Depends, Header, Request
 from pydantic import BaseModel
-from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 app = FastAPI(title="Secure Space Real Backend")
 
@@ -111,6 +114,10 @@ class UserRegisterRequest(BaseModel):
     public_key: str
 
 
+class LoginChallengeRequest(BaseModel):
+    user_id: str
+
+
 class SpaceCreateRequest(BaseModel):
     space_id: str
     creator_id: str
@@ -204,6 +211,70 @@ def register_user(request: UserRegisterRequest):
     conn.commit()
     conn.close()
     return {"status": "registered", "user_id": username, "token": token}
+
+
+@app.post("/api/users/login/challenge")
+def login_challenge(request: LoginChallengeRequest):
+    username = request.user_id
+    if not username:
+        raise HTTPException(status_code=400, detail="Invalid user_id")
+        
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT public_key FROM users WHERE user_id = ?", (username,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="User not found")
+        
+    public_key_pem = row["public_key"]
+    
+    try:
+        user_pubkey = serialization.load_pem_public_key(public_key_pem.encode('utf-8'))
+        if not isinstance(user_pubkey, ec.EllipticCurvePublicKey):
+            conn.close()
+            raise HTTPException(status_code=400, detail="Unsupported key type. Only ECDH is supported for login.")
+            
+        # Generate ephemeral keypair of the same curve (expected SECP256R1 / P-256)
+        ephemeral_private_key = ec.generate_private_key(user_pubkey.curve)
+        ephemeral_public_key = ephemeral_private_key.public_key()
+        
+        ephemeral_public_key_pem = ephemeral_public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        ).decode('utf-8')
+        
+        # Derive shared secret
+        shared_key_raw = ephemeral_private_key.exchange(ec.ECDH(), user_pubkey)
+        derived_key = HKDF(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=None,
+            info=b'secure-space-e2ee-key-agreement'
+        ).derive(shared_key_raw)
+        
+        # Generate new token
+        new_token = str(uuid.uuid4())
+        hashed_token = hashlib.sha256(new_token.encode('utf-8')).hexdigest()
+        
+        # Encrypt token (AES-GCM)
+        aesgcm = AESGCM(derived_key)
+        iv = os.urandom(12)
+        encrypted_token_bytes = iv + aesgcm.encrypt(iv, new_token.encode('utf-8'), None)
+        encrypted_token_hex = encrypted_token_bytes.hex()
+        
+        # Update user token in DB
+        cursor.execute("UPDATE users SET token = ? WHERE user_id = ?", (hashed_token, username))
+        conn.commit()
+        conn.close()
+        
+        return {
+            "ephemeral_public_key": ephemeral_public_key_pem,
+            "encrypted_token": encrypted_token_hex
+        }
+    except Exception as e:
+        conn.close()
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/api/users")
