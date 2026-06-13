@@ -109,13 +109,18 @@ export default function App() {
   };
 
   const fetchMessages = async () => {
-    if (!selectedUser || !keys) return;
+    if (!selectedUser || !keys || !userId) return;
     try {
-      const msgs = await api.getMessages(selectedUser.user_id);
+      const msgs = await api.getMessages(userId);
+      
+      const filteredMsgs = msgs.filter((m: any) => 
+        (m.sender_id === userId && m.recipient_id === selectedUser.user_id) ||
+        (m.sender_id === selectedUser.user_id && m.recipient_id === userId)
+      );
       
       const sharedKey = await deriveSharedKey(keys.privateKey, selectedUser.public_key);
       
-      const decryptedMsgs = await Promise.all(msgs.map(async (m: any) => {
+      const decryptedMsgs = await Promise.all(filteredMsgs.map(async (m: any) => {
         try {
           const dec = await decryptAESGCM(sharedKey, m.encrypted_payload);
           return { ...m, plaintext: new TextDecoder().decode(dec) };
