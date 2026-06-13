@@ -4,6 +4,7 @@ import hashlib
 import os
 import sqlite3
 from typing import List, Dict, Optional
+import datetime
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query, Response, Depends, Header, Request
 from pydantic import BaseModel
 from cryptography.hazmat.primitives import serialization, hashes
@@ -285,6 +286,16 @@ def get_users(current_user: str = Depends(get_current_user)):
     rows = cursor.fetchall()
     conn.close()
     return [{"user_id": row["user_id"], "public_key": row["public_key"]} for row in rows]
+
+
+@app.get("/api/spaces")
+def get_user_spaces(current_user: str = Depends(get_current_user)):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT space_id FROM space_keys WHERE user_id = ?", (current_user,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [{"space_id": row["space_id"]} for row in rows]
 
 
 @app.post("/api/spaces/create")
@@ -710,3 +721,27 @@ def download_file(
                 raise HTTPException(status_code=403, detail="Forbidden: User is not the uploader")
             
     return Response(content=row["file_bytes"], media_type="application/octet-stream")
+
+@app.get("/api/external-meetings")
+def get_external_meetings(location: str = Query(...), type: str = Query("All"), current_user: str = Depends(get_current_user)):
+    seed = int(hashlib.md5(location.encode()).hexdigest(), 16)
+    types = ["AA", "NA", "SMART Recovery", "General Support"]
+    if type != "All":
+        types = [type]
+        
+    meetings = []
+    for i in range(1, 6):
+        m_type = types[(seed + i) % len(types)]
+        days_ahead = (seed + i) % 7
+        meet_date = datetime.datetime.now() + datetime.timedelta(days=days_ahead)
+        meet_time = f"{meet_date.strftime('%Y-%m-%d')}T{(18 + (seed + i) % 4):02d}:00:00"
+        
+        meetings.append({
+            "id": f"ext-{seed % 10000}-{i}",
+            "title": f"Local {m_type} Group - {location}",
+            "type": m_type,
+            "time": meet_time,
+            "location": f"{100 + (seed%100)*i} Main St, {location}",
+            "description": f"Open discussion {m_type} meeting for anyone in the {location} area seeking recovery support."
+        })
+    return meetings

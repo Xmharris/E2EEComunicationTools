@@ -175,14 +175,13 @@ export async function encryptAESGCM(key: CryptoKey, plaintext: Uint8Array): Prom
       iv: iv
     },
     key,
-    plaintext
+    plaintext as any
   );
 
-  const result = new Uint8Array(iv.length + ciphertext.byteLength);
-  result.set(iv, 0);
-  result.set(new Uint8Array(ciphertext), iv.length);
-
-  return arrayBufferToHex(result.buffer);
+  const combined = new Uint8Array(iv.length + ciphertext.byteLength);
+  combined.set(iv);
+  combined.set(new Uint8Array(ciphertext), iv.length);
+  return arrayBufferToHex(combined.buffer as ArrayBuffer);
 }
 
 export async function decryptAESGCM(key: CryptoKey, ciphertextHex: string): Promise<Uint8Array> {
@@ -200,4 +199,16 @@ export async function decryptAESGCM(key: CryptoKey, ciphertextHex: string): Prom
   );
 
   return new Uint8Array(plaintext);
+}
+
+export async function encryptSpaceKeyForUser(spaceKey: CryptoKey, peerPublicKeyPem: string, privateKey: CryptoKey): Promise<string> {
+  const sharedKey = await deriveSharedKey(privateKey, peerPublicKeyPem);
+  const rawKeyBuffer = await exportSpaceKey(spaceKey);
+  return await encryptAESGCM(sharedKey, new Uint8Array(rawKeyBuffer as any));
+}
+
+export async function decryptSpaceKeyFromUser(encryptedHex: string, peerPublicKeyPem: string, privateKey: CryptoKey): Promise<CryptoKey> {
+  const sharedKey = await deriveSharedKey(privateKey, peerPublicKeyPem);
+  const rawKeyBytes = await decryptAESGCM(sharedKey, encryptedHex);
+  return await importSpaceKey(rawKeyBytes.buffer as ArrayBuffer);
 }

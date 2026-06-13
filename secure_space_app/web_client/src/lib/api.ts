@@ -71,6 +71,10 @@ export class ApiClient {
     return this.fetch('/users');
   }
 
+  async getSpaces(): Promise<{space_id: string}[]> {
+    return this.fetch('/spaces');
+  }
+
   async createSpace(spaceId: string) {
     return this.fetch('/spaces/create', {
       method: 'POST',
@@ -124,6 +128,10 @@ export class ApiClient {
     if (spaceId) params.append('space_id', spaceId);
     if (params.toString()) url += `?${params.toString()}`;
     return this.fetch(url);
+  }
+
+  async getExternalMeetings(location: string, type: string): Promise<any[]> {
+    return this.fetch(`/external-meetings?location=${encodeURIComponent(location)}&type=${encodeURIComponent(type)}`);
   }
 }
 
