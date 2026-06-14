@@ -722,26 +722,15 @@ def download_file(
             
     return Response(content=row["file_bytes"], media_type="application/octet-stream")
 
+from .scraper import ScraperFactory, compliance_manager
+
 @app.get("/api/external-meetings")
 def get_external_meetings(location: str = Query(...), type: str = Query("All"), current_user: str = Depends(get_current_user)):
-    seed = int(hashlib.md5(location.encode()).hexdigest(), 16)
-    types = ["AA", "NA", "SMART Recovery", "General Support"]
-    if type != "All":
-        types = [type]
-        
-    meetings = []
-    for i in range(1, 6):
-        m_type = types[(seed + i) % len(types)]
-        days_ahead = (seed + i) % 7
-        meet_date = datetime.datetime.now() + datetime.timedelta(days=days_ahead)
-        meet_time = f"{meet_date.strftime('%Y-%m-%d')}T{(18 + (seed + i) % 4):02d}:00:00"
-        
-        meetings.append({
-            "id": f"ext-{seed % 10000}-{i}",
-            "title": f"Local {m_type} Group - {location}",
-            "type": m_type,
-            "time": meet_time,
-            "location": f"{100 + (seed%100)*i} Main St, {location}",
-            "description": f"Open discussion {m_type} meeting for anyone in the {location} area seeking recovery support."
-        })
-    return meetings
+    target_url = "https://example.com"
+    try:
+        active_scraper = ScraperFactory.get_scraper(target_url, compliance_manager)
+        meetings = active_scraper.scrape(target_url, location, type)
+        return meetings
+    except Exception as e:
+        print(f"Scraping failed: {e}")
+        raise HTTPException(status_code=500, detail="Failed to scrape meetings")

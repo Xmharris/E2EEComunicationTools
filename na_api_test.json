@@ -1,0 +1,865 @@
+﻿{
+    "status":  "success",
+    "data":  [
+                 {
+                     "id":  563,
+                     "description":  "Greater Los Angeles Area",
+                     "phone":  "+1 323.933-5395",
+                     "phone2":  "",
+                     "whatsapp":  "",
+                     "website":  "https://www.greaterlosangelesna.org/",
+                     "area_code":  null,
+                     "country":  "United States",
+                     "state":  "California",
+                     "city":  "",
+                     "postal_code":  "",
+                     "latitude":  34.04134251,
+                     "longitude":  -118.1913144,
+                     "type":  "Area",
+                     "phonewebid":  "",
+                     "distance":  3.091453432044622
+                 },
+                 {
+                     "id":  558,
+                     "description":  "Greater East Los Angeles Area",
+                     "phone":  "+1 323.721-5504",
+                     "phone2":  "",
+                     "whatsapp":  "",
+                     "website":  "https://greatereastlosna.com/",
+                     "area_code":  null,
+                     "country":  "United States",
+                     "state":  "California",
+                     "city":  "",
+                     "postal_code":  "",
+                     "latitude":  34.02504313,
+                     "longitude":  -118.17646,
+                     "type":  "Area",
+                     "phonewebid":  "",
+                     "distance":  4.2827471831685555
+                 },
+                 {
+                     "id":  1052,
+                     "description":  "North East Los Angeles Area (Highland Park, Eagle Rock)",
+                     "phone":  "",
+                     "phone2":  "",
+                     "whatsapp":  "",
+                     "website":  "https://nelana.org/?page_id=359",
+                     "area_code":  null,
+                     "country":  "United States",
+                     "state":  "",
+                     "city":  "",
+                     "postal_code":  "",
+                     "latitude":  34.11964,
+                     "longitude":  -118.198731,
+                     "type":  "Area",
+                     "phonewebid":  "",
+                     "distance":  5.322985563255717
+                 },
+                 {
+                     "id":  560,
+                     "description":  "Greater Hollywood Area",
+                     "phone":  "+1 323.850-1624",
+                     "phone2":  "",
+                     "whatsapp":  "",
+                     "website":  "https://hollywoodna.org/",
+                     "area_code":  null,
+                     "country":  "United States",
+                     "state":  "California",
+                     "city":  "Hollywood",
+                     "postal_code":  "",
+                     "latitude":  34.092137,
+                     "longitude":  -118.33525,
+                     "type":  "Area",
+                     "phonewebid":  "",
+                     "distance":  5.921814580393941
+                 },
+                 {
+                     "id":  1344,
+                     "description":  "San Gabriel Valley Area (Pasadena)",
+                     "phone":  "+1 626.584-6910",
+                     "phone2":  "",
+                     "whatsapp":  "",
+                     "website":  "https://www.sgvna.com",
+                     "area_code":  null,
+                     "country":  "United States",
+                     "state":  "California",
+                     "city":  "Pasadena",
+                     "postal_code":  "",
+                     "latitude":  34.14011331,
+                     "longitude":  -118.1081615,
+                     "type":  "Area",
+                     "phonewebid":  "",
+                     "distance":  9.850699649603273
+                 }
+             ],
+    "law":  [
+
+            ],
+    "ll_us":  [
+                  {
+                      "state":  "",
+                      "count":  3
+                  },
+                  {
+                      "state":  "Alabama",
+                      "count":  13
+                  },
+                  {
+                      "state":  "Alaska",
+                      "count":  5
+                  },
+                  {
+                      "state":  "Arizona",
+                      "count":  13
+                  },
+                  {
+                      "state":  "Arkansas",
+                      "count":  8
+                  },
+                  {
+                      "state":  "California",
+                      "count":  81
+                  },
+                  {
+                      "state":  "Colorado",
+                      "count":  9
+                  },
+                  {
+                      "state":  "Connecticut",
+                      "count":  11
+                  },
+                  {
+                      "state":  "Delaware",
+                      "count":  3
+                  },
+                  {
+                      "state":  "District of Columbia",
+                      "count":  4
+                  },
+                  {
+                      "state":  "Florida",
+                      "count":  41
+                  },
+                  {
+                      "state":  "Georgia",
+                      "count":  20
+                  },
+                  {
+                      "state":  "Hawaii",
+                      "count":  6
+                  },
+                  {
+                      "state":  "Idaho",
+                      "count":  9
+                  },
+                  {
+                      "state":  "Illinois",
+                      "count":  28
+                  },
+                  {
+                      "state":  "Indiana",
+                      "count":  32
+                  },
+                  {
+                      "state":  "Iowa",
+                      "count":  13
+                  },
+                  {
+                      "state":  "Kansas",
+                      "count":  35
+                  },
+                  {
+                      "state":  "Kentucky",
+                      "count":  16
+                  },
+                  {
+                      "state":  "Louisiana",
+                      "count":  10
+                  },
+                  {
+                      "state":  "Maine",
+                      "count":  4
+                  },
+                  {
+                      "state":  "Maryland",
+                      "count":  19
+                  },
+                  {
+                      "state":  "Massachusetts",
+                      "count":  13
+                  },
+                  {
+                      "state":  "Michigan",
+                      "count":  29
+                  },
+                  {
+                      "state":  "Minnesota",
+                      "count":  15
+                  },
+                  {
+                      "state":  "Mississippi",
+                      "count":  6
+                  },
+                  {
+                      "state":  "Missouri",
+                      "count":  17
+                  },
+                  {
+                      "state":  "Montana",
+                      "count":  9
+                  },
+                  {
+                      "state":  "Nebraska",
+                      "count":  11
+                  },
+                  {
+                      "state":  "Nevada",
+                      "count":  9
+                  },
+                  {
+                      "state":  "New Hampshire",
+                      "count":  5
+                  },
+                  {
+                      "state":  "New Jersey",
+                      "count":  26
+                  },
+                  {
+                      "state":  "New Mexico",
+                      "count":  7
+                  },
+                  {
+                      "state":  "New York",
+                      "count":  37
+                  },
+                  {
+                      "state":  "North Carolina",
+                      "count":  26
+                  },
+                  {
+                      "state":  "North Dakota",
+                      "count":  3
+                  },
+                  {
+                      "state":  "Ohio",
+                      "count":  32
+                  },
+                  {
+                      "state":  "Oklahoma",
+                      "count":  5
+                  },
+                  {
+                      "state":  "Oregon",
+                      "count":  17
+                  },
+                  {
+                      "state":  "Pennsylvania",
+                      "count":  55
+                  },
+                  {
+                      "state":  "Rhode Island",
+                      "count":  2
+                  },
+                  {
+                      "state":  "South Carolina",
+                      "count":  11
+                  },
+                  {
+                      "state":  "South Dakota",
+                      "count":  3
+                  },
+                  {
+                      "state":  "Tennessee",
+                      "count":  14
+                  },
+                  {
+                      "state":  "Texas",
+                      "count":  28
+                  },
+                  {
+                      "state":  "Utah",
+                      "count":  9
+                  },
+                  {
+                      "state":  "Vermont",
+                      "count":  4
+                  },
+                  {
+                      "state":  "Virginia",
+                      "count":  22
+                  },
+                  {
+                      "state":  "Washington",
+                      "count":  21
+                  },
+                  {
+                      "state":  "West Virginia",
+                      "count":  16
+                  },
+                  {
+                      "state":  "Wisconsin",
+                      "count":  16
+                  },
+                  {
+                      "state":  "Wyoming",
+                      "count":  8
+                  }
+              ],
+    "ll_ca":  [
+                  {
+                      "state":  "Alberta",
+                      "count":  6
+                  },
+                  {
+                      "state":  "British Columbia",
+                      "count":  16
+                  },
+                  {
+                      "state":  "Manitoba",
+                      "count":  1
+                  },
+                  {
+                      "state":  "New Brunswick",
+                      "count":  2
+                  },
+                  {
+                      "state":  "Newfoundland and Labrador",
+                      "count":  3
+                  },
+                  {
+                      "state":  "Nova Scotia",
+                      "count":  3
+                  },
+                  {
+                      "state":  "Ontario",
+                      "count":  21
+                  },
+                  {
+                      "state":  "Prince Edward Island",
+                      "count":  1
+                  },
+                  {
+                      "state":  "Quebec",
+                      "count":  17
+                  },
+                  {
+                      "state":  "Saskatchewan",
+                      "count":  3
+                  }
+              ],
+    "ll_intl":  [
+                    {
+                        "country":  "Afghanistan",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Angola",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Antigua \u0026 Barbuda",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Argentina",
+                        "count":  29
+                    },
+                    {
+                        "country":  "Armenia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Aruba",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Australia",
+                        "count":  29
+                    },
+                    {
+                        "country":  "Austria",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Azerbaijan",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Bahamas",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Bahrain",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Bangladesh",
+                        "count":  3
+                    },
+                    {
+                        "country":  "Barbados",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Belarus",
+                        "count":  13
+                    },
+                    {
+                        "country":  "Belgium",
+                        "count":  3
+                    },
+                    {
+                        "country":  "Belize",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Bermuda",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Bhutan",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Bolivia",
+                        "count":  5
+                    },
+                    {
+                        "country":  "Botswana",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Brazil",
+                        "count":  182
+                    },
+                    {
+                        "country":  "Bulgaria",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Cambodia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Cape Verde",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Cayman Islands",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Chile",
+                        "count":  9
+                    },
+                    {
+                        "country":  "China",
+                        "count":  3
+                    },
+                    {
+                        "country":  "Colombia",
+                        "count":  11
+                    },
+                    {
+                        "country":  "Costa Rica",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Croatia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Cuba",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Cyprus",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Czech Republic",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Denmark",
+                        "count":  6
+                    },
+                    {
+                        "country":  "Dominican Republic",
+                        "count":  6
+                    },
+                    {
+                        "country":  "Ecuador",
+                        "count":  9
+                    },
+                    {
+                        "country":  "Egypt",
+                        "count":  3
+                    },
+                    {
+                        "country":  "El Salvador",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Estonia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Finland",
+                        "count":  7
+                    },
+                    {
+                        "country":  "France",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Gambia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Georgia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Germany",
+                        "count":  9
+                    },
+                    {
+                        "country":  "Ghana",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Greece",
+                        "count":  5
+                    },
+                    {
+                        "country":  "Greenland",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Grenada",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Guam",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Guatemala",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Guyana",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Honduras",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Hungary",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Iceland",
+                        "count":  1
+                    },
+                    {
+                        "country":  "India",
+                        "count":  17
+                    },
+                    {
+                        "country":  "Indonesia",
+                        "count":  5
+                    },
+                    {
+                        "country":  "Iran",
+                        "count":  33
+                    },
+                    {
+                        "country":  "Ireland",
+                        "count":  5
+                    },
+                    {
+                        "country":  "Israel",
+                        "count":  8
+                    },
+                    {
+                        "country":  "Italy",
+                        "count":  12
+                    },
+                    {
+                        "country":  "Jamaica",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Japan",
+                        "count":  43
+                    },
+                    {
+                        "country":  "Kazakhstan",
+                        "count":  5
+                    },
+                    {
+                        "country":  "Kenya",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Kuwait",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Kyrgyzstan",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Latvia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Lebanon",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Lithuania",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Luxembourg",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Malaysia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Maldives",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Malta",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Mexico",
+                        "count":  48
+                    },
+                    {
+                        "country":  "Moldova",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Mongolia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Montenegro",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Morocco",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Mozambique",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Myanmar, (Burma)",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Namibia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Nepal",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Netherlands",
+                        "count":  19
+                    },
+                    {
+                        "country":  "New Zealand",
+                        "count":  4
+                    },
+                    {
+                        "country":  "Nicaragua",
+                        "count":  4
+                    },
+                    {
+                        "country":  "Nigeria",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Northern Mariana Islands",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Norway",
+                        "count":  7
+                    },
+                    {
+                        "country":  "Oman",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Pakistan",
+                        "count":  3
+                    },
+                    {
+                        "country":  "Panama",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Paraguay",
+                        "count":  3
+                    },
+                    {
+                        "country":  "Peru",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Philippines",
+                        "count":  4
+                    },
+                    {
+                        "country":  "Poland",
+                        "count":  8
+                    },
+                    {
+                        "country":  "Portugal",
+                        "count":  10
+                    },
+                    {
+                        "country":  "Puerto Rico",
+                        "count":  3
+                    },
+                    {
+                        "country":  "Qatar",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Romania",
+                        "count":  4
+                    },
+                    {
+                        "country":  "Russian Federation",
+                        "count":  67
+                    },
+                    {
+                        "country":  "Saint Lucia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Saudi Arabia",
+                        "count":  5
+                    },
+                    {
+                        "country":  "Serbia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Singapore",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Slovenia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "South Africa",
+                        "count":  6
+                    },
+                    {
+                        "country":  "South Korea",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Spain",
+                        "count":  13
+                    },
+                    {
+                        "country":  "Sri Lanka",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Sudan",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Suriname",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Swaziland",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Sweden",
+                        "count":  15
+                    },
+                    {
+                        "country":  "Switzerland",
+                        "count":  7
+                    },
+                    {
+                        "country":  "Tanzania",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Thailand",
+                        "count":  10
+                    },
+                    {
+                        "country":  "Trinidad \u0026 Tobago",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Tunisia",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Turkey",
+                        "count":  5
+                    },
+                    {
+                        "country":  "Ukraine",
+                        "count":  20
+                    },
+                    {
+                        "country":  "United Arab Emirates",
+                        "count":  1
+                    },
+                    {
+                        "country":  "United Kingdom",
+                        "count":  35
+                    },
+                    {
+                        "country":  "Uruguay",
+                        "count":  6
+                    },
+                    {
+                        "country":  "Uzbekistan",
+                        "count":  1
+                    },
+                    {
+                        "country":  "Venezuela",
+                        "count":  4
+                    },
+                    {
+                        "country":  "Vietnam",
+                        "count":  4
+                    },
+                    {
+                        "country":  "Virgin Islands - US",
+                        "count":  2
+                    },
+                    {
+                        "country":  "Zimbabwe",
+                        "count":  1
+                    }
+                ],
+    "radius":  "10"
+}

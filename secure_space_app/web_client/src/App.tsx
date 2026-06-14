@@ -55,6 +55,7 @@ export default function App() {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchType, setSearchType] = useState('All');
   const [externalMeetings, setExternalMeetings] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     const session = localStorage.getItem('groundedmind_session');
@@ -256,12 +257,15 @@ export default function App() {
 
   const handleSearchExternal = async () => {
     if (!searchLocation) return;
+    setIsSearching(true);
     try {
       const results = await api.getExternalMeetings(searchLocation, searchType);
       setExternalMeetings(results);
     } catch (e) {
       console.error(e);
       alert('Failed to search public meetings');
+    } finally {
+      setIsSearching(false);
     }
   };
 
@@ -416,7 +420,7 @@ export default function App() {
                     <MenuItem value="NA">NA (Narcotics Anonymous)</MenuItem>
                     <MenuItem value="SMART Recovery">SMART Recovery</MenuItem>
                   </Select>
-                  <Button variant="contained" onClick={handleSearchExternal} disabled={!searchLocation}>Search</Button>
+                  <Button variant="contained" onClick={handleSearchExternal} disabled={!searchLocation || isSearching}>{isSearching ? 'Searching...' : 'Search'}</Button>
                 </Box>
                 {externalMeetings.length > 0 && (
                   <Box sx={{ mt: 3, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
