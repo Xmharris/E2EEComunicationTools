@@ -1,5 +1,5 @@
 # GroundedMind: Secure End-to-End Communications
-**Created by Xavier Harris | [X-Sys.dev](https://x-sys.dev)**
+**Created by Xavier Harris**
 
 GroundedMind is a lightweight, highly secure end-to-end encrypted communication prototype built in Python. This project serves as the foundational messaging architecture for broader applications requiring strict data privacy, such as healthcare management and rehab facility communications.
 

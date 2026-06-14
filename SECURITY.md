@@ -1,6 +1,6 @@
 # Security Policy
 
-At X-Sys.dev, we take the security of our communication systems seriously. This document outlines our security policies and how you can safely report vulnerabilities.
+For GroundedMind, we take the security of our communication systems seriously. This document outlines our security policies and how you can safely report vulnerabilities.
 
 ## Supported Versions
 
