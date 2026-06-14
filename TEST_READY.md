@@ -11,7 +11,7 @@ pip install fastapi uvicorn requests cryptography pydantic
 ```
 
 ### 2. Execution Command
-From the project root directory (`C:\Users\xavie\Documents\antigravity\quick-franklin`), run the test runner script:
+From the project root directory, run the test runner script:
 ```bash
 python secure_space_app/tests/run_tests.py
 ```

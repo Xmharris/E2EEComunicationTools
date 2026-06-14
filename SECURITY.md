@@ -4,7 +4,7 @@ At X-Sys.dev, we take the security of our communication systems seriously. This 
 
 ## Supported Versions
 
-We currently provide security updates for the following versions of ComE2E:
+We currently provide security updates for the following versions of GroundedMind:
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -13,7 +13,7 @@ We currently provide security updates for the following versions of ComE2E:
 
 ## Reporting a Vulnerability
 
-**Please do not report security vulnerabilities through public GitHub issues.** If you believe you have found a security vulnerability in ComE2E, please report it to us directly by emailing xmharris11@gmail.com. 
+**Please do not report security vulnerabilities through public GitHub issues.** If you believe you have found a security vulnerability in GroundedMind, please report it to us directly by emailing xmharris11@gmail.com. 
 
 Please include the following details in your report:
 * A description of the vulnerability.
