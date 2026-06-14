@@ -722,15 +722,35 @@ def download_file(
             
     return Response(content=row["file_bytes"], media_type="application/octet-stream")
 
-from .scraper import ScraperFactory, compliance_manager
+import sqlite3
+import os
 
 @app.get("/api/external-meetings")
 def get_external_meetings(location: str = Query(...), type: str = Query("All"), current_user: str = Depends(get_current_user)):
-    target_url = "https://example.com"
+    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../na_meetings.db"))
+    
+    if not os.path.exists(db_path):
+        return []
+        
     try:
-        active_scraper = ScraperFactory.get_scraper(target_url, compliance_manager)
-        meetings = active_scraper.scrape(target_url, location, type)
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, meeting_name, day, time, address, source_url FROM meetings")
+        rows = cursor.fetchall()
+        conn.close()
+        
+        meetings = []
+        for row in rows:
+            meetings.append({
+                "id": f"ext-{row[0]}",
+                "title": row[1],
+                "type": "NA",
+                "time": f"Upcoming {row[2]} at {row[3]}",
+                "location": row[4],
+                "description": f"Source: {row[5]}"
+            })
+            
         return meetings
     except Exception as e:
-        print(f"Scraping failed: {e}")
-        raise HTTPException(status_code=500, detail="Failed to scrape meetings")
+        print(f"Database query failed: {e}")
+        raise HTTPException(status_code=500, detail="Failed to retrieve meetings")
