@@ -727,7 +727,7 @@ import os
 
 @app.get("/api/external-meetings")
 def get_external_meetings(location: str = Query(...), type: str = Query("All"), current_user: str = Depends(get_current_user)):
-    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../na_meetings.db"))
+    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../na_meetings.db"))
     
     if not os.path.exists(db_path):
         return []

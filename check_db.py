@@ -1,5 +1,5 @@
 import sqlite3
-conn = sqlite3.connect(r'C:\Users\xavie\Documents\antigravity\quick-franklin\na_meetings.db')
+conn = sqlite3.connect('na_meetings.db')
 cursor = conn.cursor()
 cursor.execute("SELECT sql FROM sqlite_master WHERE type='table';")
 tables = cursor.fetchall()
