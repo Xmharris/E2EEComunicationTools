@@ -429,7 +429,7 @@ export default function App() {
                         <CardContent>
                           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>Public Meeting • {m.type}</Typography>
                           <Typography variant="h6" component="div">{m.title}</Typography>
-                          <Typography sx={{ mb: 1.5 }} color="text.secondary">{new Date(m.time).toLocaleString()}</Typography>
+                          <Typography sx={{ mb: 1.5 }} color="text.secondary">{m.time}</Typography>
                           <Typography variant="body2"><strong>Location:</strong> {m.location}<br /><br />{m.description}</Typography>
                         </CardContent>
                       </Card>
